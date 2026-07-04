@@ -1,0 +1,41 @@
+.contact-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.contact-item:hover {
+  border-color: #a78bfa;
+  transform: translateY(-1px);
+}
+
+.contact-item__content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.contact-item__name {
+  font-weight: 600;
+  color: #111827;
+}
+
+.contact-item__hint {
+  font-size: 0.82rem;
+  color: #64748b;
+}
+
+.contact-item__delete {
+  border: none;
+  background: transparent;
+  color: #ef4444;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
