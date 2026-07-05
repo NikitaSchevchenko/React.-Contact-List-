@@ -4,12 +4,18 @@ import "./ContactForm.css";
 export class ContactForm extends Component {
   state = {
     ...this.props.contactForEdit,
+    prevContactForEdit: this.props.contactForEdit,
   };
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.contactForEdit !== this.props.contactForEdit) {
-      this.setState({ ...this.props.contactForEdit });
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.contactForEdit !== prevState.prevContactForEdit) {
+      return {
+        ...nextProps.contactForEdit,
+        prevContactForEdit: nextProps.contactForEdit,
+      };
     }
+
+    return null;
   }
 
   onInputChange = (event) => {

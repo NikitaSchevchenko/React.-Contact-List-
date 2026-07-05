@@ -8,17 +8,14 @@ export class App extends Component {
   state = {
     contacts: [],
     contactForEdit: this.createEmptyContact(),
+    formResetKey: 0,
   };
 
   componentDidMount() {
-    const savedContacts = localStorage.getItem("contacts");
+    const savedContacts = JSON.parse(localStorage.getItem("contacts"));
 
     if (savedContacts) {
-      try {
-        this.setState({ contacts: JSON.parse(savedContacts) });
-      } catch (error) {
-        console.error("Failed to parse contacts from localStorage", error);
-      }
+      this.setState({ contacts: savedContacts });
     }
   }
 
@@ -37,7 +34,10 @@ export class App extends Component {
   }
 
   addContact = () => {
-    this.setState({ contactForEdit: this.createEmptyContact() });
+    this.setState((state) => ({
+      contactForEdit: this.createEmptyContact(),
+      formResetKey: state.formResetKey + 1,
+    }));
   };
 
   createContact = (contact) => {
@@ -127,6 +127,7 @@ export class App extends Component {
 
             <ContactForm
               contactForEdit={contactForEdit}
+              resetKey={this.state.formResetKey}
               onSubmit={this.saveContact}
               onDelete={this.deleteContact}
             />

@@ -2,11 +2,6 @@ import { Component } from "react";
 import "./ContactItem.css";
 
 export class ContactItem extends Component {
-  handleDelete = (event) => {
-    event.stopPropagation();
-    this.props.onDelete(this.props.contact);
-  };
-
   render() {
     const { firstName, lastName } = this.props.contact;
 
@@ -25,7 +20,7 @@ export class ContactItem extends Component {
         <button
           type="button"
           className="contact-item__delete"
-          onClick={this.handleDelete}
+          onClick={() => this.props.onDelete(this.props.contact)}
           aria-label={`Delete ${firstName} ${lastName}`}
         >
           ×
