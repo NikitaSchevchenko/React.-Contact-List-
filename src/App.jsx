@@ -8,7 +8,6 @@ export class App extends Component {
   state = {
     contacts: [],
     contactForEdit: this.createEmptyContact(),
-    formResetKey: 0,
   };
 
   componentDidMount() {
@@ -36,7 +35,6 @@ export class App extends Component {
   addContact = () => {
     this.setState((state) => ({
       contactForEdit: this.createEmptyContact(),
-      formResetKey: state.formResetKey + 1,
     }));
   };
 
@@ -127,7 +125,6 @@ export class App extends Component {
 
             <ContactForm
               contactForEdit={contactForEdit}
-              resetKey={this.state.formResetKey}
               onSubmit={this.saveContact}
               onDelete={this.deleteContact}
             />
