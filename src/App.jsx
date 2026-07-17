@@ -1,26 +1,25 @@
 import { useState, useEffect } from "react";
 import ContactList from "./components/ContactList/ContactList";
 import ContactForm from "./components/ContactForm/ContactForm";
-import { nanoid } from "nanoid";
 import "./App.css";
+import api from "./api/contactsservice";
 
 export default function App() {
   const [contacts, setContacts] = useState([]);
   const [contactForEdit, setContactForEdit] = useState(createEmptyContact());
 
   useEffect(() => {
-    const savedContacts = JSON.parse(localStorage.getItem("contacts"));
-
-    if (savedContacts) {
-       setContacts(savedContacts);
-    }
+    api.get("/").then(({ data }) => {
+      if (!data) {
+        setContacts([]);
+      } else {
+        setContacts(data);
+      }
+    });
   }, []);
 
-  const saveToStorage = (contacts) => {
-    localStorage.setItem("contacts", JSON.stringify(contacts));
-  };
 
-  function createEmptyContact(){
+  function createEmptyContact() {
     return {
       id: null,
       firstName: "",
@@ -28,27 +27,28 @@ export default function App() {
       email: "",
       phone: "",
     };
-  };
+  }
 
   const addContact = () => {
     setContactForEdit(createEmptyContact());
   };
 
   const createContact = (contact) => {
-    const newContact = { ...contact, id: nanoid() };
-    const contactsNew = [...contacts, newContact];
-    saveToStorage(contactsNew);
-    setContacts(contactsNew);
-    setContactForEdit(createEmptyContact());
+    api.post("/", contact).then(({ data }) => {
+      const contactsNew = [...contacts, data];
+      setContacts(contactsNew);
+      setContactForEdit(createEmptyContact());
+    });
   };
 
   const editContact = (contact) => {
-    const contacts = contacts.map((item) =>
-      item.id === contact.id ? contact : item,
-    );
-    saveToStorage(contacts);
-    setContacts(contacts);
-    setContactForEdit(contact);
+    api.put(`/${contact.id}`, contact).then(({ data }) => {
+      const contacts = contacts.map((item) =>
+        item.id === contact.id ? data : item,
+      );
+      setContacts(contacts);
+      setContactForEdit(contact);
+    });
   };
 
   const saveContact = (contact) => {
@@ -60,8 +60,8 @@ export default function App() {
   };
 
   const deleteContact = (contact) => {
+    api.delete(`/${contact.id}`);
     const contactsNew = contacts.filter((item) => item.id !== contact.id);
-    saveToStorage(contactsNew);
     setContacts(contactsNew);
     setContactForEdit(createEmptyContact());
   };
