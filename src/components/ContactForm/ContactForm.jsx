@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import "./ContactForm.css";
 
 export default function ContactForm({
@@ -8,10 +7,12 @@ export default function ContactForm({
   onDelete,
 }) {
   const [contactForEdit, setContactForEdit] = useState(currentContactForEdit);
-
+  /* eslint-disable */
+  // Update contactForEdit state when currentContactForEdit prop changes
   useEffect(() => {
     setContactForEdit(currentContactForEdit);
   }, [currentContactForEdit]);
+  /* eslint-enable */
 
   const onInputChange = (event) => {
     setContactForEdit((prevContact) => ({
@@ -113,9 +114,3 @@ export default function ContactForm({
     </form>
   );
 }
-
-ContactForm.PropTypes = {
-  currentContactForEdit: PropTypes.object,
-  onSubmit: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
-};

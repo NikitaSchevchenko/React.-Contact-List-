@@ -1,5 +1,3 @@
-import { Component } from "react";
-import PropTypes from "prop-types";
 import "./ContactItem.css";
 
 export default function ContactItem({ contact, onSelect, onDelete }) {
@@ -25,9 +23,3 @@ export default function ContactItem({ contact, onSelect, onDelete }) {
     </div>
   );
 }
-
-ContactItem.PropTypes = {
-  contact:PropTypes.object.isRequired, 
-  onSelect:PropTypes.func.isRequired, 
-  onDelete:PropTypes.func.isRequired
-};
